@@ -6,7 +6,11 @@ PollywogRanchRailsRuby003::Application.routes.draw do
   resources :ponds, except: [:update]
   post 'ponds/:id/update' => 'ponds#update'
   get 'ponds/:id/destroy' => 'ponds#destroy'
-
+  resources :frogs, except: [:update]
+  post 'frogs/:id/update' => 'frogs#update'
+  get 'frogs/:id/destroy' => 'frogs#destroy'
+  get '/frogs/:id/tadpoles/new' => 'frogs#tadpoles'
+  resources :tadpoles, except: [:update]
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
