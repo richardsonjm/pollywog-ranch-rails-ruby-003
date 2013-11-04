@@ -1,5 +1,11 @@
 class TadpolesController < ApplicationController
   
+  before_filter :get_tadpole, :only => [:show, :edit, :update, :destroy, :evolve]
+
+  def get_tadpole
+    @tadpole = Tadpole.find(params[:id].to_i)
+  end
+
   def index
     @tadpoles = Tadpole.all
   end
@@ -18,17 +24,14 @@ class TadpolesController < ApplicationController
   end
 
   def show
-    @tadpole = Tadpole.find(params[:id].to_i)
   end
 
 
   def edit
-    @tadpole = Tadpole.find(params[:id].to_i)
   end
 
   def update
-    tadpole = Tadpole.find(params[:id].to_i)
-    tadpole.update(
+    @tadpole.update(
       :name => params[:name],
       :color => params[:color]
     )
@@ -36,18 +39,17 @@ class TadpolesController < ApplicationController
   end
 
   def destroy
-    Tadpole.find(params[:id].to_i).destroy
+    @tadpole.destroy
     redirect_to '/tadpoles'
   end
 
   def evolve
-    tadpole = Tadpole.find(params[:id].to_i)
     frog = Frog.new
-    frog.name = tadpole.name
-    frog.color = tadpole.color
-    frog.pond_id = tadpole.frog.pond_id
+    frog.name = @tadpole.name
+    frog.color = @tadpole.color
+    frog.pond_id = @tadpole.frog.pond_id
     frog.save
-    Tadpole.find(params[:id].to_i).destroy
+    @tadpole.destroy
     redirect_to '/frogs'
   end
 

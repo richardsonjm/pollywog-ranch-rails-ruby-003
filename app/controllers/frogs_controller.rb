@@ -1,5 +1,11 @@
 class FrogsController < ApplicationController
   
+  before_filter :get_frog, :only => [:show, :edit, :update, :destroy, :tadpole]
+  
+  def get_frog
+    @frog = Frog.find(params[:id].to_i)
+  end
+
   def index
     @frogs = Frog.all
   end 
@@ -19,17 +25,14 @@ class FrogsController < ApplicationController
   end
 
   def show
-    @frog = Frog.find(params[:id].to_i)
   end
 
   def edit
-    @frog = Frog.find(params[:id].to_i)
     @ponds = Pond.all
   end
 
   def update
-    frog = Frog.find(params[:id].to_i)
-    frog.update(
+    @frog.update(
       :name => params[:name],
       :color => params[:color],
       :pond_id => params[:pond_id]
@@ -38,14 +41,11 @@ class FrogsController < ApplicationController
   end
 
   def destroy
-    Frog.find(params[:id].to_i).destroy
+    @frog.destroy
     redirect_to '/frogs'
   end
 
   def tadpole
-    # Write the code to find the correct frog
-    # and redirect to new tadpole form view
-    @frog = Frog.find(params[:id].to_i)
     render 'tadpoles/new'
   end
 

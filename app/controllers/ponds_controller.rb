@@ -1,5 +1,11 @@
 class PondsController < ApplicationController
 
+  before_filter :get_pond, :only => [:show, :edit, :update, :destroy]
+
+  def get_pond
+    @pond = Pond.find(params[:id].to_i)
+  end
+
   def index
     @ponds = Pond.all
   end
@@ -17,16 +23,13 @@ class PondsController < ApplicationController
   end
 
   def show
-    @pond = Pond.find(params[:id].to_i)
   end
 
   def edit
-    @pond = Pond.find(params[:id].to_i)
   end
 
   def update
-    pond = Pond.find(params[:id].to_i)
-    pond.update(
+    @pond.update(
       :name => params[:name],
       :water_type => params[:water_type]
     )
@@ -34,8 +37,7 @@ class PondsController < ApplicationController
   end
 
   def destroy
-    Pond.find(params[:id].to_i).destroy
+    @pond.destroy
     redirect_to '/ponds'
-    
   end
 end
