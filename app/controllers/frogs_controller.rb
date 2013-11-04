@@ -42,11 +42,11 @@ class FrogsController < ApplicationController
     redirect_to '/frogs'
   end
 
-  def tadpoles
+  def tadpole
     # Write the code to find the correct frog
     # and redirect to new tadpole form view
     @frog = Frog.find(params[:id].to_i)
-    redirect_to'tadpoles/new'
+    render 'tadpoles/new'
   end
 
 end
